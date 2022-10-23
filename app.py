@@ -37,7 +37,7 @@ def generate_frames():
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    return render_template('./index.html')
 
 
 @app.route('/', methods=['POST'])
@@ -53,7 +53,7 @@ def upload_image():
         filename = secure_filename(file.filename)
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         flash('Image successfully uploaded and displayed below')
-        return render_template('index.html', filename=filename)
+        return render_template('./index.html', filename=filename)
     else:
         flash('Allowed image type are - png, jpg, jpeg, gif')
         return redirect(request.url)
