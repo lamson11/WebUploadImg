@@ -8,7 +8,6 @@ import urllib.request
 
 
 app = Flask(__name__)
-camera = cv2.VideoCapture(0)
 UPLOAD_FOLDER = 'static/uploads'
 app.secret_key = "cairocoders-ednalan"
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -22,6 +21,7 @@ def allowed_file(filename):
 
 
 def generate_frames():
+    camera = cv2.VideoCapture("some_m3u8_link")
     while True:
         # read the camera frame
         success, frame = camera.read()
@@ -66,12 +66,7 @@ def display_image(filename):
 
 @app.route('/webcamera')
 def webcamera():
-    return render_template('webcamera.html')
-
-
-@app.route('/webcamera/video')
-def video():
-    return Response(generate_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
+    return render_template('./camera.html')
 
 
 if __name__ == "__main__":
