@@ -42,31 +42,31 @@ def home():
     return render_template('./index.html')
 
 
-@app.route('/', methods=['POST'])
+@app.route('/send', methods=['POST'])
 def upload_image():
     if 'file' not in request.files:
         flash('No file part')
         return redirect(request.url)
+    file = request.files['file']
 
-    if file.filename == '':
-        flash('No image selected for uploading')
-        return redirect(request.url)
+    URL = "http://127.0.0.1:30701"
+    param = request.files
+    response = requests.post(URL, files=param)
+
     if file and allowed_file(file.filename):
-        filename = secure_filename(file.filename)
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        flash('Image successfully uploaded and displayed below')
-        URL = "http://127.0.0.1:30701"
-        response = requests.post(URL, files=request.files)
-        print(type(response.content))
-        if response != None and response.content != None:
+        if response.status_code != 500 and response.ok:
             my_json = response.content.decode('utf8').replace("'", '"')
-            print(my_json)
-            print('- ' * 20)
-
             data = json.loads(my_json)
             s = json.dumps(data, indent=4, sort_keys=True)
             print(s)
-            return render_template('./index.html', filename=filename)
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            flash('Image successfully uploaded and displayed below')
+            return render_template('./index.html', filename=filename, result=s)
+        return "<h2>Can not regnization</h2>"
+    if file.filename == '':
+        flash('No image selected for uploading')
+        return redirect(request.url)
     else:
         flash('Allowed image type are - png, jpg, jpeg, gif')
         return redirect(request.url)

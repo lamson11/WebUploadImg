@@ -37,8 +37,9 @@
                             margin-right: auto;
                         ">
             </div>
+            <h2>Kết quả: {{ result }}</h2>
             {% endif %}
-            <form method="post" action="/" enctype="multipart/form-data">
+            <form method="post" action="/send" enctype="multipart/form-data">
                 <dl>
                     <p>
                         <input type="file" name="file" class="form-control" autocomplete="off" required>
