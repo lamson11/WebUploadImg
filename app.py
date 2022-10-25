@@ -16,6 +16,8 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
+WITHOUT_MASK = "Không đeo khẩu trang"
+WITH_MASK = "Đeo khẩu trang"
 
 
 def allowed_file(filename):
@@ -58,11 +60,17 @@ def upload_image():
             my_json = response.content.decode('utf8').replace("'", '"')
             data = json.loads(my_json)
             s = json.dumps(data, indent=4, sort_keys=True)
-            print(s)
+            listResponse = json.loads(s)
+            lable = listResponse[0][0]
+            result = ""
+            if lable == "without_mask":
+                result = WITHOUT_MASK
+            if lable == "with_mask":
+                result = WITH_MASK
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             flash('Image successfully uploaded and displayed below')
-            return render_template('./index.html', filename=filename, result=s)
+            return render_template('./index.html', filename=filename, result=result)
         return "<h2>Can not regnization</h2>"
     if file.filename == '':
         flash('No image selected for uploading')
