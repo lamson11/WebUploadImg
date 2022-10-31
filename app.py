@@ -68,7 +68,7 @@ def upload_image():
             if lable == "with_mask":
                 result = WITH_MASK
             filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            # file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             flash('Image successfully uploaded and displayed below')
             return render_template('./index.html', filename=filename, result=result)
         return "<h2>Can not regnization</h2>"
