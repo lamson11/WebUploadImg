@@ -51,7 +51,10 @@
                 </p>
             </form>
             <div class="col text-center">
-                <button class="btn btn-info" method="post" action="/">Return</button>
+                <a href="{{url_for('modal')}}" class="btn btn-outline-success">Đánh giá</a>
+                <div style="margin-top: 25px;">
+                    {% block modal %}{% endblock %}
+                </div>
             </div>
         </div>
     </div>
@@ -60,5 +63,5 @@
         integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
         crossorigin="anonymous"></script>
 </body>
-
+{% block script %}{% endblock %}
 </html>

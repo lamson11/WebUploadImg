@@ -38,7 +38,6 @@ def generate_frames():
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
-
 @app.route('/')
 def home():
     return render_template('./index.html')
@@ -89,6 +88,9 @@ def display_image(filename):
 def webcamera():
     return render_template('./camera.html')
 
+@app.route("/modal")
+def modal():
+    return render_template('modal.html')
 
 if __name__ == "__main__":
     app.run()
